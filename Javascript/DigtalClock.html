@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #clock {
+            font-size: 48px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digital Clock</h1>
+    <div id="clock">00:00:00</div>
+
+    <script>
+        function updateClock() {
+            const clockElement = document.getElementById('clock');
+            
+            // Lấy thời gian hiện tại
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Định dạng thời gian HH:MM:SS
+            const currentTime = `${hours}:${minutes}:${seconds}`;
+            
+            // Cập nhật nội dung của clock
+            clockElement.textContent = currentTime;
+        }
+
+        // Kiểm tra: Cập nhật đồng hồ mỗi giây
+        setInterval(updateClock, 1000);
+
+        // Kiểm tra: Hiển thị thời gian ngay khi trang tải
+        updateClock();
+    </script>
+</body>
+</html>

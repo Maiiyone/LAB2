@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .options {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #score {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Quiz Application</h1>
+    <div id="quiz-container"></div>
+    <button id="submit-button">Submit</button>
+    <div id="score"></div>
+
+    <script>
+        // Array of questions
+        const quizQuestions = [
+            {
+                question: "What is the capital of France?",
+                options: ["Berlin", "Madrid", "Paris", "Rome"],
+                answer: "Paris"
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Mars", "Jupiter", "Saturn"],
+                answer: "Mars"
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                answer: "Pacific Ocean"
+            },
+            {
+                question: "What is the chemical symbol for water?",
+                options: ["H2O", "O2", "CO2", "NaCl"],
+                answer: "H2O"
+            },
+            {
+                question: "Who wrote 'To be, or not to be'?",
+                options: ["Charles Dickens", "Mark Twain", "William Shakespeare", "Jane Austen"],
+                answer: "William Shakespeare"
+            }
+        ];
+
+        // Function to generate the quiz
+        function generateQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+
+            quizQuestions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+
+                const questionText = document.createElement('p');
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionElement.appendChild(questionText);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'options';
+
+                q.options.forEach(option => {
+                    const label = document.createElement('label');
+                    const radioInput = document.createElement('input');
+                    radioInput.type = 'radio';
+                    radioInput.name = `question${index}`;
+                    radioInput.value = option;
+
+                    label.appendChild(radioInput);
+                    label.appendChild(document.createTextNode(option));
+                    optionsContainer.appendChild(label);
+                });
+
+                questionElement.appendChild(optionsContainer);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        // Function to calculate score
+        function calculateScore() {
+            let score = 0;
+            quizQuestions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            return score;
+        }
+
+        // Event listener for the submit button
+        document.getElementById('submit-button').addEventListener('click', () => {
+            const score = calculateScore();
+            document.getElementById('score').textContent = `Your score: ${score} out of ${quizQuestions.length}`;
+        });
+
+        // Generate the quiz on page load
+        generateQuiz();
+    </script>
+</body>
+</html>

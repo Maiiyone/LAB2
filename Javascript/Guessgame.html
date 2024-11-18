@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guessing Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            width: 200px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guessing Game</h1>
+    <input type="number" id="guessInput" placeholder="Enter a number (1-100)" min="1" max="100">
+    <button id="guessButton">Guess</button>
+    <div id="feedback"></div>
+
+    <script>
+        // Generate a random number between 1 and 100
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        // Function to handle the guess
+        function handleGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const feedbackElement = document.getElementById('feedback');
+            const userGuess = Number(guessInput.value);
+            attempts++;
+
+            if (userGuess < 1 || userGuess > 100) {
+                feedbackElement.textContent = "Please enter a number between 1 and 100.";
+            } else if (userGuess < randomNumber) {
+                feedbackElement.textContent = "Too low! Try again.";
+            } else if (userGuess > randomNumber) {
+                feedbackElement.textContent = "Too high! Try again.";
+            } else {
+                feedbackElement.textContent = `Correct! You guessed it in ${attempts} attempts.`;
+                // Reset the game after a correct guess
+                resetGame();
+            }
+
+            // Clear the input field for the next guess
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            // Generate a new random number and reset attempts
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+        }
+
+        // Event listener for the button
+        document.getElementById('guessButton').addEventListener('click', handleGuess);
+    </script>
+</body>
+</html>
